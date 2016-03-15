@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+<head>
+<script>
+
+/*Draw a sin curve*/
+function drawSigncurve(){
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+for(var i = 0; i < 900 ; i = i + 1)
+{
+var rad = i * (Math.PI / 180);
+var sin = Math.sin(rad) * 100 + 250;
+console.log (sin);
+ctx.fillStyle = "green";
+ctx.fillRect(i,sin,2,2);
+if(i%5 == 0)
+{
+ctx.fillRect(i,250,1,1);
+}
+}
+};
+
+function drawCoscurve(){
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+for(var i = 0; i < 900 ; i = i + 1)
+{
+var rad = i * (Math.PI / 180);
+var cos = Math.cos(rad) * 100 + 250;
+console.log (cos);
+ctx.fillStyle = "green";
+ctx.fillRect(i,cos,2,2);
+if(i%5 == 0)
+{
+ctx.fillRect(i,250,1,1);
+}
+}
+};
+
+/*Draw a randamLines*/
+function randamLines(){
+var inputNumber = document.getElementById("seed").innerHTML;
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+var rand = 250;
+var previousrand = 0;
+
+for(var i = 0; i < 900 ; i = i + 2)
+{
+// First path
+ctx.beginPath();
+ctx.strokeStyle = 'green';
+ctx.moveTo(i-2,previousrand);
+ctx.lineTo(i,rand);
+ctx.stroke();
+var previousrand = rand;
+var rand = Math.floor( Math.random()*inputNumber) + (250 - inputNumber / 2);
+if(i%5 == 0)
+{
+ctx.fillRect(i,250,1,1);
+}
+}
+};
+
+window.onload = function(){
+document.getElementById("seed").value = 20;
+
+
+
+var elem = document.querySelector('input[type = "range"]');
+
+var rangeValue = function(){
+  console.log("its sliding now");
+  console.log(elem.value);
+  var newValue = elem.value;
+  var target   = document.querySelector('.display');
+  target.innerHTML = newValue;
+}
+
+var changeValue = function(){
+  console.log("valueChanged");
+  var newValue = elem.value;
+  var target2 = document.getElementById("seed")
+  target2.value = newValue;
+}
+
+
+
+elem.addEventListener("input",rangeValue);
+elem.addEventListener("input",randamLines);
+elem.addEventListener("change",randamLines);
+
+};
+</script>
+<style>
+#canvas{
+background-color:#fff;
+display:block;
+margin:0 0 20px 0;
+overflow:hidden;
+}
+
+button{
+background-color:Red;
+border:none;
+color:white;
+padding:10px;
+cursor:pointer;}
+
+button:active{
+background-color:white;
+}
+input#red{
+width:900px;
+display:block;
+}
+</style>
+</head>
+<body>
+<span id="seed" class="display">0</span>
+<canvas id ="canvas" width="1000" height="500"></canvas>
+
+
+
+<input id="red" type="range" min="0" max="255" step="0.5" value="0">
+
+<button onchange = "randamLines()">RANDAM</button>
+
+<button onclick = "drawSigncurve()">SIGN CURVE</button>
+
+<button onclick = "drawCoscurve()">COSIN CURVE</button>
+</body>
+</html>
